@@ -1,7 +1,7 @@
 interface Smartphone{
     //quanto credito 
     carica:number;
-    //il numero delle chiamate effettuate
+   
     numeroChiamate:number;
 }
 
