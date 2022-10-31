@@ -1,77 +1,79 @@
-interface Smartphone{
+
+const costoChiamata=0.20;
+
+interface ISmartphone{
     //quanto credito 
     carica:number;
     numeroChiamate:number;
-    ricarica(unaRicarica:number):void
-    chiamata(minuti:number):void
+    ricarica(unaRicarica:number):void;
+    chiamata(minuti:number):void;
     numero404():number;
     getNumeroChiamate():number;
-    azzeraChiamata():void;
-
+    azzeraChiamate():void;
 }
 
-class Utente1 implements Smartphone{
-
-    carica:number=0;
-    numeroChiamata:number=0;
+abstract class Smartphone implements ISmartphone{
+    carica: number=0;
+    numeroChiamate:number=0;
     minutiChiamate:number=0;
 
-      
     ricarica(unaRicarica:number):void{
-        this.carica=this.carica+ this.unaRicarica;
+        this.carica += unaRicarica;
     }
 
-    chiamata(minutiChiamate:number):void{
+    chiamata(minutiDurata: number): void {
         if(this.carica>=minutiDurata*costoChiamata){
-            this.carica=this.carica=(minutiDurata*costoChiamata);
-            this.numeroChiamata++;
-            this.minutiChiamate += minutiDurata;
-            console.log("chiamata effettuata");
+            // this.carica=this.carica-(minutiDurata*costoChiamata);
+            // this.numeroChiamate++;
+            this.minutiChiamate+=minutiDurata;
+            console.log("chiamata effettuata")
+        }else{
+            console.log("non hai credito");
         }
-        else{
-            console.log("finito il credito");
-        }
-       
-    }
 
-    numero404():number{
+    }
+    numero404(): number {
         return this.carica;
     }
 
-
-    getNumeroChiamata():number{
-        return this.numeroChiamata;
+    getNumeroChiamate(): number {
+        return this.numeroChiamate;
     }
-
-    azzeraChiamata(): void {
-        this.numeroChiamata=0;
+    azzeraChiamate(): void {
+        this.numeroChiamate=0;
     }
-
 }
 
-class iphone extends Smartphone{}
-class glaxy extends Smartphone{}
- 
-class Utente{
+class Iphone extends Smartphone{}
+class Galaxy extends Smartphone{}
+
+class Utente {
     name:string;
     lastname:string;
     smartphone?:Smartphone;
 
+    constructor(name:string,lastname:string){
+        this.name=name;
+        this.lastname=lastname;
+    }
+
+    compraTel(smartphone: Smartphone){
+        this.smartphone=smartphone;
+    }
+      
 }
 
-compraTel(smartphone){
-    this.smartphone=smartphone;
-}
 
+ 
 
+let iphone= new Iphone();
+let galaxy= new Galaxy();
 
-let ipone= new iphone();
-let galaxy= new galaxy();
 let ut1= new Utente("simone","ponzani");
-ut1=compraTel(iphone);
+ut1.compraTel(iphone);
 
 let ut2= new Utente("maria","ponzani");
-ut2=compraTel(iphone);
+ut2.compraTel(galaxy);
 
 console.log(ut1);
 ut1.smartphone?.ricarica(15);
@@ -79,14 +81,14 @@ ut1.smartphone?.chiamata(6);
 console.log(ut1.smartphone?.numero404());
 console.log(ut1.smartphone?.getNumeroChiamate());
 
-console.log(ut1);
-ut2.smartphone?.ricarica(15);
-ut2.smartphone?.chiamata(6);
+console.log(ut2);
+ut2.smartphone?.ricarica(25);
+ut2.smartphone?.chiamata(8);
 console.log(ut2.smartphone?.numero404());
 console.log(ut2.smartphone?.getNumeroChiamate());
 
 
-let hr=0;
+let hrs=0;
 let min=0;
 let sec=0;
 
@@ -98,18 +100,19 @@ function cronometro(){
         min++;
         if(min>=60){
             min=0;
-            hr++;
+            hrs++;
         }
 
     }
-    console.log(hr,min,sec);
-    printChiamata();
+    printCronometro();
     ut1.smartphone?.chiamata(min+1);
 }
 
 function printCronometro(){
   let crono= document.querySelector('#crono') as HTMLParagraphElement;
-    crono.innerHTML="hour:"+hr+", min:"+min+ " , sec:"+ sec;
+    crono.innerHTML= hrs+":" +min+":"+sec;
 }
 
-setInterval(cronometro, 1000)
+// setInterval(cronometro, 1000)
+let clear= setInterval(cronometro, 1000);
+let stopClear= clearInterval(clear);
