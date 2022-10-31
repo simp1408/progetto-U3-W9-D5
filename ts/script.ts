@@ -1,73 +1,115 @@
 interface Smartphone{
     //quanto credito 
     carica:number;
-   
     numeroChiamate:number;
+    ricarica(unaRicarica:number):void
+    chiamata(minuti:number):void
+    numero404():number;
+    getNumeroChiamate():number;
+    azzeraChiamata():void;
+
 }
 
 class Utente1 implements Smartphone{
 
-    carica:number;
-    numeroChiamate:number;
+    carica:number=0;
+    numeroChiamata:number=0;
+    minutiChiamate:number=0;
 
-    constructor(carica:number,numeroChiamate:number){
-        this.carica=carica;
-        this.numeroChiamate=numeroChiamate;
+      
+    ricarica(unaRicarica:number):void{
+        this.carica=this.carica+ this.unaRicarica;
     }
 
-    getCarica():number{
-        return this.carica
-  
-    }
-    
-    getRicarica(ricarica:number){
-        return ricarica;
-    }
-
-
-    getNumber404(ricarica:number){
-        return this.carica+=ricarica;
-    }
-
-  
-
-     getTotChiamata(minuti:number){
-        
-        let costoChiamata = this.carica-(0.20*minuti);
-     
-
-        if(costoChiamata>this.carica){
-            console.log("credito esaurito");
+    chiamata(minutiChiamate:number):void{
+        if(this.carica>=minutiDurata*costoChiamata){
+            this.carica=this.carica=(minutiDurata*costoChiamata);
+            this.numeroChiamata++;
+            this.minutiChiamate += minutiDurata;
+            console.log("chiamata effettuata");
         }
-            return costoChiamata; 
-          
+        else{
+            console.log("finito il credito");
+        }
+       
     }
 
-    
-
-    getNumeroChiamate():number{
-        return this.numeroChiamate;
+    numero404():number{
+        return this.carica;
     }
 
-    getAzzeraChiamate():number{
-        return this.numeroChiamate=0;
+
+    getNumeroChiamata():number{
+        return this.numeroChiamata;
+    }
+
+    azzeraChiamata(): void {
+        this.numeroChiamata=0;
     }
 
 }
 
+class iphone extends Smartphone{}
+class glaxy extends Smartphone{}
+ 
+class Utente{
+    name:string;
+    lastname:string;
+    smartphone?:Smartphone;
+
+}
+
+compraTel(smartphone){
+    this.smartphone=smartphone;
+}
 
 
-let simone= new Utente1(10,20);
-// credito iniziale 10 euro
-console.log("credito iniziale :" + simone.getCarica());
-//numero chimate effettuate
-console.log("numero chiamate effettuate "+simone.getNumeroChiamate());
-//ricarico il cellulare di 100 euro
-console.log("hai caricato il cell di euro :" +simone.getRicarica(100));
-console.log("il tuo credito è:" + simone.getNumber404(100));
-// il costo della chimata lunga 10min
-console.log("il tuo credito residuo è di:"+simone.getTotChiamata(10.0));
-//chiamata otre i minuti  supera il costo del credito
-console.log("il tuo credito residuo dopo aver chiamato:" +simone.getTotChiamata(600.0));
 
-// console.log("il tuo credito residuo:" + simone.getCarica());
+let ipone= new iphone();
+let galaxy= new galaxy();
+let ut1= new Utente("simone","ponzani");
+ut1=compraTel(iphone);
+
+let ut2= new Utente("maria","ponzani");
+ut2=compraTel(iphone);
+
+console.log(ut1);
+ut1.smartphone?.ricarica(15);
+ut1.smartphone?.chiamata(6);
+console.log(ut1.smartphone?.numero404());
+console.log(ut1.smartphone?.getNumeroChiamate());
+
+console.log(ut1);
+ut2.smartphone?.ricarica(15);
+ut2.smartphone?.chiamata(6);
+console.log(ut2.smartphone?.numero404());
+console.log(ut2.smartphone?.getNumeroChiamate());
+
+
+let hr=0;
+let min=0;
+let sec=0;
+
+function cronometro(){
+    //vado ad aumentare i sec
+    sec++;
+    if(sec >=60){
+        sec=0;
+        min++;
+        if(min>=60){
+            min=0;
+            hr++;
+        }
+
+    }
+    console.log(hr,min,sec);
+    printChiamata();
+    ut1.smartphone?.chiamata(min+1);
+}
+
+function printCronometro(){
+  let crono= document.querySelector('#crono') as HTMLParagraphElement;
+    crono.innerHTML="hour:"+hr+", min:"+min+ " , sec:"+ sec;
+}
+
+setInterval(cronometro, 1000)
